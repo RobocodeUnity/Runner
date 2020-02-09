@@ -26,6 +26,9 @@ public class PlayerMotor : MonoBehaviour
 
     void Update()
     {
+
+        
+
         if(Time.time < animationDuration)
         {
             controller.Move(Vector3.forward * speed * Time.deltaTime);
@@ -42,7 +45,7 @@ public class PlayerMotor : MonoBehaviour
             verticalVelocity -= gravity * Time.deltaTime;
         }
         // X - Left and Right
-        moveVector.x = Input.GetAxisRaw("Horizontal") * speed;
+     //   moveVector.x = Input.GetAxisRaw("Horizontal") * speed;
         // Y - Up and Down
         moveVector.y = verticalVelocity;
         if (isDead)
@@ -55,8 +58,19 @@ public class PlayerMotor : MonoBehaviour
             moveVector.z = speed;
         }
 
-        //moveVector.z = isDead ? 0 : speed;
-
+        if (Input.GetMouseButton(0))
+        {
+            if (Input.mousePosition.x > Screen.width / 2)
+            {
+                Debug.Log("Right");
+                moveVector.x = speed;
+            }
+            else
+            {
+                Debug.Log("Left");
+                moveVector.x = -speed;
+            }
+        }
 
         controller.Move(moveVector * Time.deltaTime);
     }
@@ -68,7 +82,7 @@ public class PlayerMotor : MonoBehaviour
     {
         isDead = true;
         panelGameOver.SetActive(true);
-        Debug.Log("Test");
+       // Debug.Log("Test");
     }
     public void RestartScene()
     {
