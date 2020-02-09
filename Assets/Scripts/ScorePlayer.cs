@@ -7,6 +7,9 @@ public class ScorePlayer : MonoBehaviour
     public Text scoreText;
     private int score;
     private float timeScore;
+    public PlayerMotor playerMotor;
+    private static int record;
+    public Text textRecord;
     void Start()
     {
         score = 0;
@@ -16,10 +19,21 @@ public class ScorePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeScore += Time.deltaTime * 10;
-        score = (int)timeScore;
-        scoreText.text = score.ToString();
-      //  Debug.Log("time" + Time.time);
+        if (!playerMotor.isDead)
+        {
+            timeScore += Time.deltaTime * 10;
+            score = (int)timeScore;
+            scoreText.text = score.ToString();
+        }
+        else
+        {
+
+            if (record < timeScore)
+            {
+                record = score;
+                textRecord.text = "Record: " + record.ToString();
+            }
+        }
 
     }
 }

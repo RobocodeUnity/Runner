@@ -10,8 +10,16 @@ public class PlayerMotor : MonoBehaviour
     private float verticalVelocity = 0;
     private float gravity = 3.0f;
     private float animationDuration = 3.0f;
+    public GameObject panelGameOver;
+    public bool isDead;
+    private Animation anim;
+
     void Start()
-    { 
+    {
+        anim = GetComponent<Animation>();
+        anim.enabled = true;
+        isDead = false;
+        panelGameOver.SetActive(false);
         controller = GetComponent<CharacterController>();
     }
 
@@ -26,6 +34,7 @@ public class PlayerMotor : MonoBehaviour
         moveVector = Vector3.zero;
         if (controller.isGrounded)
         {
+
             verticalVelocity = 0;
         }
         else
@@ -36,7 +45,19 @@ public class PlayerMotor : MonoBehaviour
         moveVector.x = Input.GetAxisRaw("Horizontal") * speed;
         // Y - Up and Down
         moveVector.y = verticalVelocity;
-        moveVector.z = speed;
+        if (isDead)
+        {
+            anim.enabled = false;
+            moveVector.z = 0;
+        }
+        else
+        {
+            moveVector.z = speed;
+        }
+
+        //moveVector.z = isDead ? 0 : speed;
+
+
         controller.Move(moveVector * Time.deltaTime);
     }
     public void SetSpeed(int modifier)
@@ -45,8 +66,15 @@ public class PlayerMotor : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        isDead = true;
+        panelGameOver.SetActive(true);
         Debug.Log("Test");
     }
+    public void RestartScene()
+    {
+        Application.LoadLevel("Game");
+    }
+
 }
 
 

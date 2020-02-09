@@ -11,7 +11,6 @@ public class TileManager : MonoBehaviour
     private float safeZone = 100.0f;
     private int amnTileOnScreen = 7;
     private int lastPrefabIndex = 0;
-
     private List<GameObject> activeTiles = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
@@ -31,7 +30,6 @@ public class TileManager : MonoBehaviour
             SpawnTile();
             DeleteTile();
         }
-        
     }
     private void SpawnTile(int prefabsIndex = -1)
     {
